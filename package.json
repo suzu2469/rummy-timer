@@ -13,10 +13,12 @@
     "@types/react-dom": "^16.0.11",
     "@types/styled-components": "^4.1.6",
     "parcel": "^1.11.0",
+    "prettier": "^1.16.1",
     "typescript": "^3.2.4"
   },
   "scripts": {
     "dev": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html",
+    "lint-fix": "prettier --write ./**/*.{ts,tsx}"
   }
 }
