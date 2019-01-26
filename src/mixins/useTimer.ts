@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BasicBeep } from '../constants/audio'
 import { BaseYear, BaseMonth } from '../constants/application'
 
-export const useTimer = (initialMS: number): [Date, (ms: number) => void] => {
+const useTimer = (initialMS: number): [Date, (ms: number) => void] => {
   const initialTime = new Date(
     Date.UTC(BaseYear, BaseMonth, 1, 0, initialMS / 1000)
   )
@@ -23,3 +23,5 @@ export const useTimer = (initialMS: number): [Date, (ms: number) => void] => {
       setTime(new Date(Date.UTC(BaseYear, BaseMonth, 1, 0, ms / 1000)))
   ]
 }
+
+export default useTimer

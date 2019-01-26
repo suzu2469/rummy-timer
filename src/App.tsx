@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { BaseYear, BaseMonth } from './constants/application'
 import { BasicBeep } from './constants/audio'
-import { useTimer } from './mixins/useTImer'
+import useTimer from './mixins/useTimer'
+import usePlayerMarker, { PlayerMarkerAllow } from './mixins/usePlayerMarker'
 
 const App: React.FC = () => {
   const [time, resetTimer] = useTimer(30000)
@@ -11,6 +11,12 @@ const App: React.FC = () => {
     resetTimer(ms)
   }
   const [intervalSecond, setIntervalSecond] = React.useState(30)
+  const [playerMarker, setNextMarker] = usePlayerMarker()
+
+  const clickStart = () => {
+    resetTimerAndInitBeep(intervalSecond * 1000)
+    setNextMarker()
+  }
 
   return (
     <div>
@@ -22,11 +28,20 @@ const App: React.FC = () => {
         />
       </div>
       <div>
-        <button onClick={e => resetTimerAndInitBeep(intervalSecond * 1000)}>
-          Reset
-        </button>
+        <button onClick={e => clickStart()}>Start</button>
       </div>
       <div>{time.getUTCMinutes()}</div>
+      <div>
+        {playerMarker === PlayerMarkerAllow.Up
+          ? '↑'
+          : playerMarker === PlayerMarkerAllow.Right
+          ? '→'
+          : playerMarker === PlayerMarkerAllow.Down
+          ? '↓'
+          : playerMarker === PlayerMarkerAllow.Left
+          ? '←'
+          : null}
+      </div>
     </div>
   )
 }
