@@ -2,13 +2,17 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { BasicBeep } from './constants/audio'
 import useTimer from './mixins/useTimer'
-import usePlayerMarker, { choicePlayerMarkerAllow } from './mixins/usePlayerMarker'
+import usePlayerMarker, {
+  choicePlayerMarkerAllow
+} from './mixins/usePlayerMarker'
 
 import Main from './styles/Main'
 import Reset from './styles/Reset'
 import Input from './components/Input'
 
 const App: React.FC = () => {
+  const [started, setStarted] = React.useState(false)
+
   const [time, resetTimer] = useTimer(30000)
   const resetTimerAndInitBeep = (ms: number) => {
     BasicBeep.play()
@@ -22,9 +26,12 @@ const App: React.FC = () => {
     if (isNaN(num)) return
     setIntervalSecond(num)
   }, [])
-  const intervalSecondStr = React.useMemo(() => intervalSecond.toString(), [intervalSecond])
+  const intervalSecondStr = React.useMemo(() => intervalSecond.toString(), [
+    intervalSecond
+  ])
 
   const clickStart = () => {
+    setStarted(true)
     resetTimerAndInitBeep(intervalSecond * 1000)
     setNextMarker()
   }
@@ -34,22 +41,29 @@ const App: React.FC = () => {
       <Main />
       <Reset />
       <Container>
-        <Inner>
-          <Allow onClick={setNextMarker}>
-            {choicePlayerMarkerAllow(playerMarker)}
-          </Allow>
-          <TimeText onClick={setNextMarker}>{time.getUTCMinutes()}</TimeText>
-          <InputBlock>
-            <InputLabel>DURATION</InputLabel>
-            <InputWrap>
-              <Input
-                value={intervalSecondStr}
-                onChange={changeIntervalSecond}
-                nativeType="number"
-              />
-            </InputWrap>
-          </InputBlock>
-        </Inner>
+        {started ? (
+          <Inner>
+            <Allow onClick={setNextMarker}>
+              {choicePlayerMarkerAllow(playerMarker)}
+            </Allow>
+            <TimeText onClick={clickStart}>{time.getUTCMinutes()}</TimeText>
+            <InputBlock>
+              <InputLabel>DURATION</InputLabel>
+              <InputWrap>
+                <Input
+                  value={intervalSecondStr}
+                  onChange={changeIntervalSecond}
+                  nativeType="number"
+                />
+              </InputWrap>
+            </InputBlock>
+          </Inner>
+        ) : (
+          <Inner>
+            <TimeText onClick={clickStart}>START</TimeText>
+          </Inner>
+
+        )}
       </Container>
     </>
   )
@@ -59,7 +73,7 @@ const Container = styled.main`
   margin: 0 auto;
   height: 100vh;
   position: relative;
-  
+
   background-color: black;
   color: white;
 `

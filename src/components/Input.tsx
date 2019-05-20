@@ -2,7 +2,9 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Simulate } from 'react-dom/test-utils'
 
-const createChangeValue = (f: (value: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) =>  f(e.target.value)
+const createChangeValue = (f: (value: string) => void) => (
+  e: React.ChangeEvent<HTMLInputElement>
+) => f(e.target.value)
 
 type Props = {
   value: string
@@ -10,12 +12,15 @@ type Props = {
   nativeType?: 'number' | 'text' | 'password' | 'email'
   className?: string
 }
-const Input = ({value, onChange, nativeType, ...props}: Props): React.ReactElement => {
+const Input = ({
+  value,
+  onChange,
+  nativeType,
+  ...props
+}: Props): React.ReactElement => {
   const changeValue = React.useCallback(createChangeValue(onChange), [])
 
-  return (
-    <Outer value={value} onChange={changeValue} {...props} />
-  )
+  return <Outer value={value} onChange={changeValue} {...props} />
 }
 
 const Outer = styled.input`
