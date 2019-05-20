@@ -18,4 +18,23 @@ const usePlayerMarker = (): [PlayerMarkerAllow, () => void] => {
   return [marker, setNextMarker]
 }
 
+export function choicePlayerMarkerAllow(marker: PlayerMarkerAllow) {
+  switch (marker) {
+    case PlayerMarkerAllow.Up:
+      return '↑'
+
+    case PlayerMarkerAllow.Left:
+      return '←'
+
+    case PlayerMarkerAllow.Down:
+      return '↓'
+
+    case PlayerMarkerAllow.Right:
+      return '→'
+
+    default:
+      return ''
+  }
+}
+
 export default usePlayerMarker
