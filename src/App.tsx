@@ -43,7 +43,7 @@ const App: React.FC = () => {
       <Container>
         {started ? (
           <Inner>
-            <Allow onClick={setNextMarker}>
+            <Allow onClick={clickStart}>
               {choicePlayerMarkerAllow(playerMarker)}
             </Allow>
             <TimeText onClick={clickStart}>{time.getUTCMinutes()}</TimeText>
